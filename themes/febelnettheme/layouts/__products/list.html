@@ -1,0 +1,38 @@
+
+<html>
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+     <title>Document</title>
+</head>
+<body>
+     {{ partial "header" (dict "Productlist" .Kind "Productlist" "Productlist") }}
+     <!--{{.Content}}-->
+<div class="container">
+  <div class="row order-2"  style="order: 4;">
+<div>
+     {{ range (.Paginator 10).Pages }}
+          <div style="border: 1px solid black; margin:10px; padding:10px;max-width: 33%;float:left;max-height:300px;">
+            <div style="font-size:18px;"><img width="200px" src="{{.Params.photos_medium}}"></div>
+               <div style="font-size:16px;">
+                    <a href="{{.URL}}">{{.Title}}</a>
+               </div>
+               <!--<div style="color:grey; font-size:16px;">{{ dateFormat "Monday, Jan 2, 2006" .Date }}</div>-->
+               <div style="color:grey; font-size:16px;">{{ if .Params.tags }}<strong>Tags:</strong> {{range .Params.tags}}<a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a> {{end}}{{end}}</div>
+               <div style="color:grey; font-size:16px;">{{ if .Params.categories }}<strong>Categories:</strong> {{range .Params.categories}}<a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a> {{end}}{{end}}</div>
+               <div style="color:grey; font-size:16px;">{{ if .Params.moods }}<strong>Moods:</strong> {{range .Params.moods}}<a href="{{ "/moods/" | relLangURL }}{{ . | urlize }}">{{ . }}</a> {{end}}{{end}}</div>
+
+              <div style="font-size:18px;">Prijs {{if .Params.publicprice}}{{div .Params.publicprice 100.00 }} €{{end}}</div>
+               <p style="font-size:18px;">{{.Summary}}</p>
+          </div>
+     {{ end }}
+   </div>
+ </div>
+   <div class="row order-1" style="order: 2;">
+   {{ template "_internal/pagination.html" . }}
+ </div>
+     {{ partial "footer" . }}
+</body>
+</html>
